@@ -1,0 +1,580 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+  cursor: default !important;
+}
+
+html, body {
+  cursor: default !important;
+  -webkit-cursor: default !important;
+  -moz-cursor: default !important;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+/* ============================================================ */
+/* PREMIUM ANIMATED BACKGROUND                                 */
+/* ============================================================ */
+
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  background: linear-gradient(135deg, #ffe4ec 0%, #fff1f5 40%, #ffffff 100%);
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  color-scheme: light;
+  min-height: 100vh;
+  position: relative;
+}
+
+.sakura-bg-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  will-change: opacity, transform;
+  transform: translateZ(0);
+  background: linear-gradient(100deg, #f8cfd8 0%, #f6c1cc 45%, #fff1f5 80%, #ffffff 100%);
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(circle at 80% 15%, rgba(255, 229, 238, 0.35) 0%, rgba(255, 229, 238, 0) 55%),
+    radial-gradient(circle at 20% 85%, rgba(255, 210, 226, 0.22) 0%, rgba(255, 210, 226, 0) 50%),
+    radial-gradient(circle at 90% 90%, rgba(255, 230, 239, 0.2) 0%, rgba(255, 230, 239, 0) 52%),
+    linear-gradient(100deg, #f8cfd8 0%, #f6c1cc 45%, #fff1f5 80%, #ffffff 100%);
+  background-blend-mode: screen, normal;
+}
+
+.sakura-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.sakura-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.16;
+  animation: sakuraBlobFloat 16s linear infinite;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+}
+
+.sakura-blob-1 {
+  width: 360px;
+  height: 360px;
+  left: -10%;
+  top: 5%;
+  background: radial-gradient(circle, rgba(255, 187, 210, 0.45) 0%, rgba(255, 187, 210, 0) 70%);
+  animation-delay: 0s;
+}
+
+.sakura-blob-2 {
+  width: 520px;
+  height: 520px;
+  right: -13%;
+  top: 30%;
+  background: radial-gradient(circle, rgba(255, 220, 234, 0.4) 0%, rgba(255, 220, 234, 0) 70%);
+  animation-duration: 16s;
+  animation-delay: 1.8s;
+}
+
+.sakura-blob-3 {
+  width: 440px;
+  height: 440px;
+  left: 15%;
+  bottom: -15%;
+  background: radial-gradient(circle, rgba(255, 237, 245, 0.34) 0%, rgba(255, 237, 245, 0) 70%);
+  animation-duration: 18s;
+  animation-delay: 0.7s;
+}
+
+.sakura-light-rays {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 50%),
+              linear-gradient(150deg, rgba(255, 245, 254, 0.18), rgba(255, 255, 255, 0) 60%);
+  opacity: 0.45;
+}
+
+/* Dynamic background container */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse 800px 600px at 20% 30%, rgba(255, 192, 203, 0.3) 0%, transparent 70%),
+              radial-gradient(ellipse 600px 500px at 80% 20%, rgba(255, 182, 197, 0.25) 0%, transparent 70%),
+              radial-gradient(ellipse 700px 700px at 60% 80%, rgba(255, 209, 220, 0.2) 0%, transparent 70%),
+              radial-gradient(ellipse 500px 400px at 10% 70%, rgba(255, 228, 236, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  animation: blob-float 18s linear infinite;
+  filter: blur(22px);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse 600px 700px at 30% 50%, rgba(255, 160, 200, 0.15) 0%, transparent 60%),
+              radial-gradient(ellipse 700px 600px at 70% 60%, rgba(255, 200, 220, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+  animation: blob-float-alt 20s linear infinite;
+  filter: blur(26px);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(20px, -30px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(30px, 30px) scale(1.02); }
+}
+
+@keyframes blob-float-alt {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30% { transform: translate(-25px, 25px) scale(1.03); }
+  60% { transform: translate(25px, -20px) scale(0.98); }
+}
+
+@keyframes sakuraBlobFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0.2; }
+  50% { transform: translateY(-18px) scale(1.04); opacity: 0.26; }
+  100% { transform: translateY(0) scale(1); opacity: 0.2; }
+}
+
+/* ============================================================ */
+/* REALISTIC SAKURA PETAL ANIMATIONS                            */
+/* ============================================================ */
+
+/* Individual petal animation definitions */
+@keyframes fall-left-1 {
+  0% { transform: translateY(-100vh) translateX(0) rotateZ(0deg); opacity: 0; }
+  2% { opacity: 1; }
+  98% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(-200px) rotateZ(720deg); opacity: 0; }
+}
+
+@keyframes fall-left-2 {
+  0% { transform: translateY(-100vh) translateX(0) rotateZ(45deg); opacity: 0; }
+  2% { opacity: 1; }
+  98% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(-150px) rotateZ(765deg); opacity: 0; }
+}
+
+@keyframes fall-center-1 {
+  0% { transform: translateY(-100vh) translateX(0) rotateZ(90deg); opacity: 0; }
+  2% { opacity: 1; }
+  98% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(50px) rotateZ(810deg); opacity: 0; }
+}
+
+@keyframes fall-center-2 {
+  0% { transform: translateY(-100vh) translateX(0) rotateZ(-45deg); opacity: 0; }
+  2% { opacity: 1; }
+  98% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(100px) rotateZ(675deg); opacity: 0; }
+}
+
+@keyframes fall-right-1 {
+  0% { transform: translateY(-100vh) translateX(0) rotateZ(180deg); opacity: 0; }
+  2% { opacity: 1; }
+  98% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(200px) rotateZ(900deg); opacity: 0; }
+}
+
+@keyframes fall-right-2 {
+  0% { transform: translateY(-100vh) translateX(0) rotateZ(270deg); opacity: 0; }
+  2% { opacity: 1; }
+  98% { opacity: 1; }
+  100% { transform: translateY(100vh) translateX(250px) rotateZ(1080deg); opacity: 0; }
+}
+
+@keyframes sway-left {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-30px); }
+}
+
+@keyframes sway-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(30px); }
+}
+
+@keyframes sway-center {
+  0%, 100% { transform: translateX(0); }
+  33% { transform: translateX(-20px); }
+  66% { transform: translateX(20px); }
+}
+
+/* Sakura petal styles */
+.sakura-petal {
+  position: fixed;
+  pointer-events: none;
+  z-index: 3;
+  font-size: 24px;
+  line-height: 1;
+  will-change: transform;
+  font-weight: 300;
+  text-shadow: 0 2px 8px rgba(255, 192, 203, 0.3);
+}
+
+/* Left column petals */
+.sakura-left-1 {
+  animation: fall-left-1 18s linear infinite, sway-left 4s ease-in-out infinite;
+  left: 5%;
+}
+
+.sakura-left-2 {
+  animation: fall-left-2 20s linear infinite 2s, sway-left 5s ease-in-out infinite 0.5s;
+  left: 8%;
+}
+
+/* Center column petals */
+.sakura-center-1 {
+  animation: fall-center-1 16s linear infinite 1s, sway-center 6s ease-in-out infinite 1s;
+  left: 50%;
+  margin-left: -12px;
+}
+
+.sakura-center-2 {
+  animation: fall-center-2 19s linear infinite 3s, sway-center 5.5s ease-in-out infinite 2s;
+  left: 50%;
+  margin-left: -12px;
+}
+
+/* Right column petals */
+.sakura-right-1 {
+  animation: fall-right-1 17s linear infinite 0.5s, sway-right 4.5s ease-in-out infinite 0.3s;
+  right: 5%;
+}
+
+.sakura-right-2 {
+  animation: fall-right-2 21s linear infinite 2.5s, sway-right 5.5s ease-in-out infinite 1.5s;
+  right: 8%;
+}
+
+/* ============================================================ */
+/* GLASSMORPHISM & CARD EFFECTS                                 */
+/* ============================================================ */
+
+.glass-effect {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.82);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 18px 0 rgba(31, 38, 135, 0.08),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.card-base {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.82);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 16px 0 rgba(255, 174, 185, 0.1),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.75);
+  transition: all 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 10;
+}
+
+.card-base:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px 0 rgba(255, 174, 185, 0.14),
+              inset 0 1px 1px 0 rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 192, 203, 0.6);
+}
+
+/* Floating card animation */
+@keyframes card-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.card-float {
+  animation: card-float 6s ease-in-out infinite;
+}
+
+/* ============================================================ */
+/* PREMIUM BUTTONS                                              */
+/* ============================================================ */
+
+.button-primary {
+  padding: 0.875rem 2rem;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, #ff9eb5 0%, #ff6f91 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(255, 111, 145, 0.3),
+              inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.button-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.6s;
+}
+
+.button-primary:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 16px 40px rgba(255, 111, 145, 0.5),
+              inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, #ff88a8 0%, #ff5a80 100%);
+}
+
+.button-primary:hover::before {
+  left: 100%;
+}
+
+.button-primary:active {
+  transform: scale(0.98);
+}
+
+.button-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button-secondary {
+  padding: 0.875rem 2rem;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background-color: rgba(255, 192, 203, 0.25);
+  color: #ff6f91;
+  border: 2px solid rgba(255, 192, 203, 0.6);
+  cursor: pointer;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button-secondary:hover {
+  background-color: rgba(255, 192, 203, 0.4);
+  border-color: rgba(255, 192, 203, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 192, 203, 0.3);
+}
+
+.button-secondary:active {
+  transform: translateY(0);
+}
+
+/* ============================================================ */
+/* PREMIUM INPUT FIELDS                                         */
+/* ============================================================ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(255, 192, 203, 0.4);
+  border-radius: 14px;
+  color: #2a2a2a;
+  font-size: 0.95rem;
+  padding: 0.875rem 1.125rem;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Inter', sans-serif;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+  color: rgba(106, 106, 106, 0.5);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 1);
+  border-color: #ff9eb5;
+  box-shadow: 0 0 0 4px rgba(255, 158, 181, 0.25),
+              0 0 20px rgba(255, 158, 181, 0.4),
+              inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+input[type="text"]:disabled,
+input[type="email"]:disabled,
+input[type="password"]:disabled,
+textarea:disabled {
+  background-color: rgba(245, 245, 245, 0.8);
+  color: rgba(106, 106, 106, 0.6);
+  cursor: not-allowed;
+}
+
+/* ============================================================ */
+/* TYPOGRAPHY & TEXT                                            */
+/* ============================================================ */
+
+h1, h2, h3 {
+  color: #2a2a2a;
+  letter-spacing: -0.5px;
+}
+
+p {
+  color: rgba(106, 106, 106, 0.9);
+  line-height: 1.6;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: #ff6f91;
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+
+a:hover {
+  color: #ff5a80;
+}
+
+/* ============================================================ */
+/* UTILITIES & ANIMATIONS                                       */
+/* ============================================================ */
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 192, 203, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(255, 192, 203, 0.6); }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #ff9eb5 0%, #ff6f91 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================ */
+/* CUSTOM SCROLLBAR                                             */
+/* ============================================================ */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 228, 236, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff9eb5, #ff6f91);
+  border-radius: 6px;
+  box-shadow: inset 0 0 8px rgba(255, 192, 203, 0.4);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff88a8, #ff5a80);
+}
+
+/* ============================================================ */
+/* RESPONSIVE DESIGN                                            */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+  body::before,
+  body::after,
+  .sakura-blob-3 {
+    display: none;
+  }
+
+  .card-base {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .button-primary,
+  .button-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    font-size: 16px;
+    padding: 0.75rem 1rem;
+  }
+
+  .sakura-petal {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
+  .sakura-blob,
+  .card-base,
+  .button-primary,
+  .button-secondary {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
